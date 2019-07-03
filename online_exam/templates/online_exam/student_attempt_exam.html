@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+
+{% load static %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>IIITS| Dashboard</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="{% static "bower_components/bootstrap/dist/css/bootstrap.min.css" %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static "bower_components/font-awesome/css/font-awesome.min.css" %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="{% static "bower_components/Ionicons/css/ionicons.min.css" %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static "dist/css/AdminLTE.min.css" %}">
+  <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+        page. However, you can choose any other skin. Make sure you
+        apply the skin class to the body tag so the changes take effect. -->
+  <link rel="stylesheet" href="{% static "dist/css/skins/skin-purple.min.css" %}">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <!-- Google Font -->
+  <link rel="stylesheet"
+        href="{% static "font-awesome.css" %}">
+        <style>
+          .nav-page, .pages, .sample-pages{
+            border: none;
+            outline: none;
+            padding: 10px 16px;
+            background-color: lightgrey;
+            border-radius: 100%;
+            cursor: pointer;
+          }
+          
+          /* Style the active class (and buttons on mouse-over) */
+  
+          .answered{
+            background-color:green;
+            border-radius:100%;
+            color: white;
+          }
+          .review{
+            background-color:orange;
+            border-radius: 100%;
+            color: white;
+          }
+          .page-active, .pages:hover, .nav-page:hover,  .sample-page-active{
+            background-color:blue;
+            border-radius: 100%;
+            color: white;
+          }
+          .unselectOptMCQ, .unselectOptMCMQ{
+            background-color:lightgrey;
+            font-weight: bold;
+            padding:10px;
+            width:60%;
+            text-align:left;
+            border:none;
+            border-radius:25px;
+            margin-bottom:10px;
+          }
+          .questionMTC{
+            background-color:lightgrey;
+            font-weight: bold;
+            padding:10px;
+            width:45%;
+            text-align:left;
+            float:left;
+            border:none;
+            border-radius:25px;
+            margin-bottom:10px;
+          }
+          .answerMTC{
+            background-color:#4286f4;
+            color:white;
+            font-weight: bold;
+            padding:10px;
+            width:45%;
+            text-align:left;
+            float:left;
+            border:none;
+            border-radius:25px;
+            margin-left:10px;
+            margin-bottom:10px;
+          }
+          .unselectOptMCQ:hover, .unselectOptMCMQ:hover{
+            background-color:#4286f4;
+            color: white;
+          }
+          .unselectOptMCQ:active, .unselectOptMCMQ:active, .ansActive{
+            background-color:blue;
+            color:white;
+          }
+          .box-body{
+            overflow-y:auto;
+          }
+          </style>
+          <style type="text/css">
+            *.unselectable{
+              -moz-user-select: -moz-none;
+              -khtml-user-select: none;
+              -webkit-user-select: none;
+
+              -ms-user-select:none;
+              user-select:none;
+            }
+          </style>
+</head>
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-purple sidebar-mini">
+<div class="wrapper">
+
+  <!-- Main Header -->
+  <header class="main-header">
+
+    <!-- Logo -->
+    <a href="http://www.iiits.ac.in" class="logo">
+      <!-- mini logo for sidebar mini 50x50 pixels -->
+      <span class="logo-mini"><b><img src="{% static "logo.png" %}" alt="My image" style="width:45px;height:45px;"></b></span>
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg"><b><img src="{% static "logo.png" %}" alt="My image" style="float:left;width:45px;height:45px;"> Online</b> Exam</span>
+    </a>
+
+     <!-- Header Navbar -->
+     <nav class="navbar navbar-static-top" role="navigation">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <!-- Navbar Right Menu -->
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <li class="dropdown user user-menu">
+            <!-- Menu Toggle Button -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <!-- The user image in the navbar-->
+              <img src="{% static "image.jpeg" %}" class="user-image" alt="User Image">
+              <!-- hidden-xs hides the username on small devices so only the image appears. -->
+              <span class="hidden-xs">{{request.session.first_name}} {{request.session.last_name}}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- The user image in the menu -->
+              <li class="user-header">
+                <img src="{% static "image.jpeg" %}" class="img-circle" alt="User Image">
+
+                <p>
+                  {{request.session.first_name}} {{request.session.last_name}}
+                </p>
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <!--<div class="pull-left">
+                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                </div>
+                <div class="pull-right">-->
+                    <a href="../sign_out" class="btn btn-default btn-flat">Sign out</a>
+				        <!--<div>-->
+                <!--</div>-->
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar">
+
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel">
+        <div class="pull-left image">
+          <img src="{% static "student-icon.png" %}" class="img-circle" alt="User Image">
+        </div>
+        <div class="pull-left info">
+          <p>Student Portal</p>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <ul class="sidebar-menu" data-widget="tree">
+        <!--<li class="header">Your details</li>-->
+        <!-- Optionally, you can add icons to the links -->
+        <li><a href="../student_dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li class="active"><a href="../student_exams"><i class="fa fa-clipboard"></i> <span>Examinations</span></a></li>
+        <li><a href="../student_progress"><i class="fa fa-bar-chart"></i> <span>Progress</span></a></li>
+        <li><a href="../student_profile"><i class="fa fa-user"></i> <span>Profile</span></a></li>
+        <!--<li><a href="#"><i class="fa fa-sign-out"></i> <span>Sign Out</span></a></li>-->
+      </ul>
+      <!-- /.sidebar-menu -->
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Exams
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="../student_exams"><i class="fa fa-clipboard"></i> Examinations</a></li>
+        <li class="active" id = "exam_nav"></li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+
+      <!--------------------------
+        | Your Page Content Here |
+        -------------------------->
+        <div class = "unselectable">
+        <div class="box box-info" style="height:650px">
+          <div class="box-header with-border">
+            <h3 class="box-title" id = "exam_name"></h3>
+            <h3 class="box-title" style="float:right" id = 'countdown'></h3>
+          </div>
+          <div class="box-body" id="score" style="height:450px">
+            <div class="form-group inline-form" id = "subject"> 
+            </div>
+            <div class="form-group inline-form" style="float:right">
+              <button class = "btn btn-warning" onclick="review();">Review Later</button>
+            </div>
+            <div class="form-group inline-form" id = "Ques"> 
+            </div>
+            <div class="form-group inline-form" id = "Ans"> 
+            </div>
+          </div>
+          <div class="box-footer with-border" id="navig-footer">
+            <div class = "container" style="width:100%">
+              <div class = "row">
+                <div class = "col-lg-2">
+                  <table>
+                    <tr><td><button class="sample-pages sample-page-active">&nbsp;</button></td><td>&nbsp;Current</td><td><button class="sample-pages review">&nbsp;</button></td><td>&nbsp;Review</td></tr>
+                    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                    <tr><td><button class="sample-pages">&nbsp;</button></td><td>&nbsp;Unanswered</td><td><button class="sample-pages answered">&nbsp;</button></td><td>&nbsp;Answered</td></tr>
+                  </table>
+                </div>
+                <div class = "col-lg-8" id="myDIV" style="text-align:center">
+                </div>
+                <div class="col-lg-2">
+                  <div class="form-group inline-form">
+                      <button class = "btn btn-danger" style="float:right" onclick = "verify();">Finish</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h5>Note: Please do not refresh the page or navigate during the examination</h5>
+        </div>
+      </div>
+    </section>
+  </div>
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+     Indian Institute of Information Technology, Sri City
+    </div>
+    <strong>Copyright &copy; 2018 <a href="http://www.iiits.ac.in">Indian Institute of Information Technology</a>.</strong> All rights reserved.
+  </footer>
+</div>
+<script src="{% static "bower_components/jquery/dist/jquery.min.js" %}"></script>
+<script src="{% static "bower_components/bootstrap/dist/js/bootstrap.min.js" %}"></script>
+<script src="{% static "dist/js/adminlte.min.js" %}"></script>
+</body>
+<script type="text/javascript">
+  var received = {{myArray|safe}};
+</script>
+<script>
+  if({{sizeMyArray}} > 0  && {{exam_id}} != sessionStorage.getItem('exam_id'))
+  {
+      var value = {{sizeMyArray}};
+      var data = {};
+      var answer = {};
+      for(i = 1; i <= value; i++)
+      {
+        data[i-1] = received[i];
+        data[i-1]['review'] = false;
+        answer[i-1] = {'question_id':data[i-1]['question_id'], 'answers':{}, 'score':data[i-1]['score']};
+      } 
+      console.log(data);
+      console.log(answer);
+      sessionStorage.setItem('exam_id', {{exam_id}});
+      sessionStorage.setItem('registration_id', {{registration_id}})
+      sessionStorage.setItem('question', JSON.stringify(data));
+      sessionStorage.setItem('answer', JSON.stringify(answer));
+      sessionStorage.setItem('value', value);
+  }
+  else
+  {
+    var data = JSON.parse(sessionStorage.getItem('question'));
+    var answer = JSON.parse(sessionStorage.getItem('answer'));
+    var value = sessionStorage.getItem('value');
+  }        
+  $(document).ready(function()
+      {
+        var text = "";
+        text += '<button class="nav-page" id ="previous_page"><<</button>';
+        text += '<button class="nav-page" id ="previous"><</button>';
+        text += '<button class="pages page-active '
+        if(data[0]['review'] == true)
+        {
+          text += 'review';
+        }
+        if(Object.keys(answer[0]['answers']).length != 0)
+        {
+          text += ' answered';
+        }
+        text += '">1</button>';
+        show(1);
+        var i, upper_range = 10;
+        if(value < 10)
+        {
+          upper_range = value;
+        }
+        for(i = 2; i <= upper_range; i++)
+        {
+          text += '<button class="pages ';
+          if(data[i-1]['review'] == true)
+          {
+            text += 'review';
+          }
+          if(Object.keys(answer[i - 1]['answers']).length != 0)
+          {
+            text += ' answered';
+          }
+          text += '">'+ i +'</button>'; 
+        }
+        text += '<button class="nav-page" id="next">></button>';
+        text += '<button class="nav-page" id="next_page">>></button>';
+        document.getElementById("myDIV").innerHTML = text;
+      });
+      var seconds;
+      if(sessionStorage.getItem('seconds') == null)
+      {
+        seconds = {{seconds}};
+      }
+      else
+      {
+        seconds = sessionStorage.getItem('seconds');
+      }
+      function timer() {
+          var hours       = Math.floor(seconds/3600);
+          var minutesLeft = Math.floor((seconds) - (hours*3600));
+          var minutes     = Math.floor(minutesLeft/60);
+          var remainingSeconds = seconds % 60;
+          if (remainingSeconds < 10) {
+              remainingSeconds = "0" + remainingSeconds; 
+          }
+          if (minutes < 10) {
+            minutes = "0" + minutes; 
+        }
+        if (hours < 10) {
+          hours = "0" + hours; 
+        }
+          document.getElementById('countdown').innerHTML = hours + ":" + minutes + ":" + remainingSeconds;
+          if (seconds == 1) {
+              clearInterval(countdownTimer);
+              document.getElementById('countdown').innerHTML = "Completed";
+              if(sessionStorage.getItem('registration_id') != null)
+              {
+                console.log(sessionStorage.getItem('registration_id'));
+                verify();
+              }
+          } else {
+              seconds--;
+              sessionStorage.setItem('seconds', seconds);
+          }
+      }
+      var countdownTimer = setInterval('timer()', 1000);
+          // Add active class to the current button (highlight it)
+          $("#myDIV").on('click','.pages',function()
+          {
+            $(".page-active").removeClass("page-active");
+            $(this).addClass("page-active");
+            show($(this).text());
+          });
+
+          $("#myDIV").on('click', '#next',function()
+          {
+            var present = $(".page-active");
+            if(present.next("button").text() != ">")
+            {
+              present.removeClass("page-active");
+              present.next("button").addClass("page-active");
+              show(present.next("button").text());
+            }
+            else
+            {
+              var lower_range = Number($(".page-active").text());
+              if(lower_range < value)
+              {
+                lower_range += 1;
+                if(lower_range + 9 >= value)
+                {
+                  upper_range = value;
+                }
+                else
+                {
+                  upper_range = lower_range + 9;
+                }
+                var text = "";
+                text += '<button class="nav-page" id ="previous_page"><<</button>';
+                text += '<button class="nav-page" id ="previous"><</button>';
+                text += '<button class="pages page-active ';
+                if(data[lower_range-1]['review'] == true)
+                {
+                  text += 'review';
+                }
+                if(Object.keys(answer[lower_range - 1]['answers']).length != 0)
+                {
+                  text += ' answered';
+                }
+                text += '">'+ lower_range +'</button>';
+                show(lower_range);
+                var i;
+                for(i = lower_range+1; i <= upper_range; i++)
+                {
+                  text += '<button class="pages ';
+                  if(data[i-1]['review'] == true)
+                  {
+                    text += 'review';
+                  }
+                  if(Object.keys(answer[i - 1]['answers']).length != 0)
+                  {
+                    text += ' answered';
+                  }
+                  text += '">'+ i +'</button>';
+                }
+                text += '<button class="nav-page" id="next">></button>';
+                text += '<button class="nav-page" id="next_page">>></button>';
+                document.getElementById("myDIV").innerHTML = text;
+              }  
+            }
+          });
+          $("#myDIV").on('click', '#previous',function()
+          {
+            var present = $(".page-active");
+            if(present.prev("button").text() != "<")
+            {
+              present.removeClass("page-active");
+              present.prev("button").addClass("page-active");
+              show(present.prev("button").text());
+            }
+            else
+            {
+              var upper_range = Number($(".page-active").text())-1;
+              var lower_range = upper_range - 9;
+              if(lower_range >= 1)
+              {
+                var text = "";
+                text += '<button class="nav-page" id ="previous_page"><<</button>';
+                text += '<button class="nav-page" id ="previous"><</button>';
+                var i;
+                for(i = lower_range; i <= upper_range-1; i++)
+                {
+                  text += '<button class="pages ';
+                  if(data[i-1]['review'] == true)
+                  {
+                    text += 'review';
+                  }
+                  if(Object.keys(answer[i - 1]['answers']).length != 0)
+                  {
+                    text += ' answered';
+                  }
+                  text += '">'+ i +'</button>';
+                }
+                text += '<button class="pages page-active ';
+                if(data[upper_range-1]['review'] == true)
+                {
+                  text += 'review';
+                }
+                if(Object.keys(answer[upper_range - 1]['answers']).length != 0)
+                {
+                  text += ' answered';
+                }
+                text += '">'+ upper_range +'</button>';
+                show(upper_range);
+                text += '<button class="nav-page" id="next">></button>';
+                text += '<button class="nav-page" id="next_page">>></button>';
+                document.getElementById("myDIV").innerHTML = text;
+              }
+            }
+          });
+          $("#myDIV").on('click', '#next_page',function()
+          {
+            var lower_range = Number($(this).prev("button").prev("button").text());
+            if(lower_range < value)
+            {
+              lower_range += 1;
+              if(lower_range + 9 >= value)
+              {
+                upper_range = value;
+              }
+              else
+              {
+                upper_range = lower_range + 9;
+              }
+              var text = "";
+              text += '<button class="nav-page" id ="previous_page"><<</button>';
+              text += '<button class="nav-page" id ="previous"><</button>';
+              text += '<button class="pages page-active ';
+              if(data[lower_range-1]['review'] == true)
+              {
+                text += 'review';
+              }
+              if(Object.keys(answer[lower_range - 1]['answers']).length != 0)
+              {
+                text += ' answered';
+              }
+              text += '">'+ lower_range +'</button>';
+              show(lower_range);
+              var i;
+              for(i = lower_range+1; i <= upper_range; i++)
+              {
+                text += '<button class="pages ';
+                if(data[i-1]['review'] == true)
+                {
+                  text += 'review';
+                }
+                if(Object.keys(answer[i - 1]['answers']).length != 0)
+                {
+                  text += ' answered';
+                }
+                text +='">'+ i +'</button>';
+              }
+              text += '<button class="nav-page" id="next">></button>';
+              text += '<button class="nav-page" id="next_page">>></button>';
+              document.getElementById("myDIV").innerHTML = text;
+            }    
+          });
+          $("#myDIV").on('click', '#previous_page',function()
+          {
+            var upper_range = Number($(this).next("button").next("button").text()) - 1;
+            var lower_range = upper_range - 9;
+            if(lower_range >= 1)
+            {
+              var text = "";
+              text += '<button class="nav-page" id ="previous_page"><<</button>';
+              text += '<button class="nav-page" id ="previous"><</button>';
+              text += '<button class="pages page-active ';
+              if(data[lower_range-1]['review'] == true)
+              {
+                text += 'review';
+              }
+              if(Object.keys(answer[lower_range - 1]['answers']).length != 0)
+              {
+                text += ' answered';
+              }
+              text += '">'+ lower_range +'</button>';
+              show(lower_range);
+              var i;
+              for(i = lower_range+1; i <= upper_range; i++)
+              {
+                text += '<button class="pages ';
+                if(data[i-1]['review'] == true)
+                {
+                  text += 'review';
+                }
+                if(Object.keys(answer[i - 1]['answers']).length != 0)
+                {
+                  text += ' answered';
+                }
+                text += '">'+ i +'</button>';
+              }
+              text += '<button class="nav-page" id="next">></button>';
+              text += '<button class="nav-page" id="next_page">>></button>';
+              document.getElementById("myDIV").innerHTML = text;
+            }
+          });
+          $("#Ans").on('click', '.unselectOptMCQ', function()
+          {
+            if($(this).hasClass("ansActive"))
+            {
+              delete answer[Number($(".page-active").text()) - 1]['answers'][$(this).val().toString()];
+              $(this).removeClass("ansActive");
+              $(".page-active").removeClass("answered");
+            }
+            else
+            {
+              answer[Number($(".page-active").text()) - 1]['answers'] = {};
+              answer[Number($(".page-active").text()) - 1]['answers'][$(this).val().toString()] = data[Number($(".page-active").text()) - 1]['options'][$(this).val().toString()];
+              $(".ansActive").removeClass("ansActive");
+              $(this).addClass("ansActive");
+              $(".page-active").addClass("answered");
+            }
+            sessionStorage.setItem('answer', JSON.stringify(answer));
+          });
+          $("#Ans").on('click', '.unselectOptMCMQ', function()
+          {
+            if($(this).hasClass("ansActive"))
+            {
+              delete answer[Number($(".page-active").text()) - 1]['answers'][$(this).val().toString()];
+              $(this).removeClass("ansActive");
+              if(Object.keys(answer[Number($(".page-active").text()) - 1]['answers']).length == 0)
+              {
+                $(".page-active").removeClass("answered");
+              }
+            }
+            else
+            {
+              answer[Number($(".page-active").text()) - 1]['answers'][$(this).val().toString()] = data[Number($(".page-active").text()) - 1]['options'][$(this).val().toString()];
+              $(this).addClass("ansActive");
+              $(".page-active").addClass("answered");
+            }
+            sessionStorage.setItem('answer', JSON.stringify(answer));
+          });
+          $("#Ans").on('change', '.answerMTC', function()
+          {
+            var qid = JSON.parse($(this).attr('id'));
+            if($(this).find('option:selected').val() != "")
+            {
+              answer[Number($(".page-active").text()) - 1]['answers'][data[Number($(".page-active").text()) - 1]['mtcQuestions'][qid['selectID']]] = $(this).find('option:selected').val();
+              $(".page-active").addClass("answered");
+            }
+            else
+            {
+              delete answer[Number($(".page-active").text()) - 1]['answers'][data[Number($(".page-active").text()) - 1]['mtcQuestions'][qid['selectID']]];
+              if(Object.keys(answer[Number($(".page-active").text()) - 1]['answers']).length == 0)
+              {
+                $(".page-active").removeClass("answered");
+              }
+            }
+            sessionStorage.setItem('answer', JSON.stringify(answer));
+          });
+          $("#Ans").on('keyup', '.textarea', function()
+          {
+            if($(this).val().toString() == "")
+            {
+              $(".page-active").removeClass("answered");
+            }
+            else
+            {
+              $(".page-active").addClass("answered");
+            }
+            answer[Number($(".page-active").text()) - 1]['answers']["1"] = $(this).val().toString();
+            sessionStorage.setItem('answer', JSON.stringify(answer));
+          });
+          function show(question)
+          {
+            var i = 1;
+            var text = "";
+            question--;
+            document.getElementById('Ques').innerHTML = "<h4>Question type: "+ data[question]['question_type']+ "</h4><h2>" + data[question]['question'] + "</h2>";
+            if(data[question]['question_type'] == "Multiple Choice Single Answer")
+            {
+              for (var key in data[question]['options'])
+              {
+                if (key in answer[question]['answers'])
+                {
+                  text +=  ("<button class='unselectOptMCQ ansActive' value = "+key+">" + String.fromCharCode(96 + i) +") "+ data[question]['options'][key] + "</button><br>");
+                }
+                else
+                {
+                  text +=  ("<button class='unselectOptMCQ' value = "+key+">" + String.fromCharCode(96 + i) +") "+ data[question]['options'][key] + "</button><br>");
+                }
+                i++;
+              }
+            }
+            else if(data[question]['question_type'] == "Multiple Choice Multiple Answer")
+            {
+              for (var key in data[question]['options'])
+              {
+                if (key in answer[question]['answers'])
+                {
+                  text +=  ("<button class='unselectOptMCMQ ansActive' value = "+key+">" + String.fromCharCode(96 + i) +") "+ data[question]['options'][key] + "</button><br>");
+                }
+                else
+                {
+                  text +=  ("<button class='unselectOptMCMQ' value = "+key+">" + String.fromCharCode(96 + i) +") "+ data[question]['options'][key] + "</button><br>");
+                }
+                i++;
+              }
+            }
+            else if(data[question]['question_type'] == "Match the Column")
+            {
+              for (var key in data[question]['mtcQuestions'])
+              {
+                text +=  ("<button class='questionMTC' value = "+key+">" + String.fromCharCode(96 + Number(key)) +") "+ data[question]['mtcQuestions'][key] + "</button>");
+                var selectID = {'selectID':key};
+                text +=  ("<select class='answerMTC' id = '"+JSON.stringify(selectID)+"'>");
+                text +=  ("<option value = ''><strong>Select</strong></option>");
+                if(data[question]['mtcQuestions'][key] in answer[question]['answers'])
+                {
+                  for (var answerKey in data[question]['mtcAnswers'])
+                  {
+                    if(answer[question]['answers'][data[question]['mtcQuestions'][key]] == data[question]['mtcAnswers'][answerKey])
+                    {
+                      text +=  ("<option value = '"+data[question]['mtcAnswers'][answerKey]+"' selected = 'selected'> <strong>"+ answerKey +") "+ data[question]['mtcAnswers'][answerKey] + "</strong></option>");
+                    }
+                    else
+                    {
+                      text +=  ("<option value = '"+data[question]['mtcAnswers'][answerKey]+"'> <strong>"+ answerKey +") "+ data[question]['mtcAnswers'][answerKey] + "</strong></option>");
+                    }
+                  } 
+                }
+                else
+                {
+                  for (var answerKey in data[question]['mtcAnswers'])
+                  {
+                    text +=  ("<option value = '"+data[question]['mtcAnswers'][answerKey]+"'> <strong>"+ answerKey +") "+ data[question]['mtcAnswers'][answerKey] + "</strong></option>");
+                  }
+                } 
+                text += "</select><br>";
+              }
+            }
+            else
+            {
+              if ("1" in answer[question]['answers'])
+              {
+                text += '<textarea name="answer" class="form-control textarea" rows="9" style="width:100%;font-weight:bold;margin-left:10px" placeholder="Enter your answer here" required="">'+ answer[question]['answers']["1"] +'</textarea>';
+              }
+              else
+              {
+                text += '<textarea name="answer" class="form-control textarea" rows="9" style="width:100%;font-weight:bold;margin-left:10px" placeholder="Enter your answer here" required=""></textarea>';
+              }
+            }
+            document.getElementById('Ans').innerHTML = text; 
+            document.getElementById("exam_name").innerHTML = data[question]['exam'];
+            document.getElementById("exam_nav").innerHTML = data[question]['exam'];
+            //document.getElementById("subject").innerHTML = "<span style='font-size:18px'>Subject:&nbsp;</span><span style='font-size:16px'>" + data[question]['subject'] + "</span>";
+          }
+          function verify()
+          {
+            $.ajax({
+              type: "POST",
+              url: "../student_verify/",
+              data: {answer:JSON.stringify(answer), csrfmiddlewaretoken: '{{ csrf_token }}', registration_id:sessionStorage.getItem('registration_id')},
+              dataType: 'text',
+              success:function(data){
+                sessionStorage.clear();
+                text = "";
+                text +="<h4>You have scored "+data+" marks.</h4>";
+                text +="<h5>Note: Only Multiple Choice answers and Match the Column have been corrected. The rest of the questions will be manually examined by the examiner and will be notified to you soon.</h5>";
+                text +="<br><a href='../student_exams'><button class='btn btn-primary'>Go to Examination Section</button></a>";
+                document.getElementById("score").innerHTML = text;
+                document.getElementById("navig-footer").innerHTML = "";
+                seconds = 0;
+              },
+              error: function (jqXHR, exception) {
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                $('#score').html(msg);
+            },
+            });
+          }
+          function review()
+          {
+            if($(".page-active").hasClass("review"))
+            {
+              $(".page-active").removeClass("review");
+              data[Number($(".page-active").text())-1]['review'] = false;
+              sessionStorage.setItem('question', JSON.stringify(data));
+            }
+            else
+            {
+              $(".page-active").addClass("review");
+              data[Number($(".page-active").text())-1]['review'] = true;
+              sessionStorage.setItem('question', JSON.stringify(data));
+            }
+          }
+          </script>
+</html>
